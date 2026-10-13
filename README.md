@@ -66,6 +66,5 @@ https://jhotton-envqc.github.io/JSCal/
 ```
 
 
-Projet personnel développé par Julien Hotton.
+Projet développé par Julien Hotton.
 
-Utilisation libre à des fins personnelles ou professionnelles.
