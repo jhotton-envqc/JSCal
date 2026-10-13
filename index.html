@@ -45,6 +45,25 @@ button {
 .legend span {
     padding: 5px 10px;
     border-radius: 4px;
+    display: inline-block;
+}
+
+
+.today-legend {
+    border: 3px solid #2196f3;
+    background: white;
+    color: black;
+}
+
+.holiday-legend {
+    border: 2px solid #808080;
+    background: white;
+    color: #c62828;
+}
+
+.payday-legend {
+    background: var(--payday);
+    color: black;
 }
 
 .payday {
@@ -55,7 +74,6 @@ button {
     background: var(--holiday);
     color: var(--holiday-text);
 }
-
 
 
 .calendar {
@@ -106,6 +124,11 @@ button {
     font-weight: bold;
 }
 
+.today-cell {
+    border: 3px solid #2196f3 !important;
+    box-sizing: border-box;
+}
+
 
 .day {
     position: relative;
@@ -148,8 +171,17 @@ button {
 </header>
 
 <div class="legend">
-    <span class="payday">Jour de paye</span>
-    <span class="holiday">Congé férié</span>
+    <span class="payday-legend">
+        Jour de paye
+    </span>
+
+    <span class="holiday-legend">
+        Congé férié
+    </span>
+
+    <span class="today-legend">
+        Aujourd'hui
+    </span>
 </div>
 
 <div id="calendar" class="calendar"></div>
@@ -706,6 +738,18 @@ function renderCalendar()
                     month,
                     day
                 );
+
+            const today = new Date();
+
+            const isToday =
+                date.getFullYear() === today.getFullYear() &&
+                date.getMonth() === today.getMonth() &&
+                date.getDate() === today.getDate();
+
+            if(isToday)
+            {
+                cell.classList.add("today-cell");
+            }
 
             let tooltip = [];
 
