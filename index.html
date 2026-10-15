@@ -145,8 +145,7 @@ button {
 }
 
 #workdayCalculator {
-    margin-top: 30px;
-    padding: 15px;
+    padding: 12px;
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,.15);
@@ -162,6 +161,14 @@ button {
 .calculator-row input {
     padding: 5px;
 }
+
+.top-tools {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
 
 #workdayResult {
     font-size: 18px;
@@ -195,55 +202,59 @@ button {
     </button>
 </header>
 
-<div class="legend">
-    <span class="payday-legend">
-        Jour de paye
-    </span>
+<div class="top-tools">
+    <div class="legend">
+        <span class="payday-legend">
+            Jour de paye
+        </span>
 
-    <span class="holiday-legend">
-        Congé férié
-    </span>
+        <span class="holiday-legend">
+            Congé férié
+        </span>
 
-    <span class="today-legend">
-        Aujourd'hui
-    </span>
+        <span class="today-legend">
+            Aujourd'hui
+        </span>
+    </div>
+
+    <div id="workdayCalculator">
+
+        <strong>Calculateur de jours ouvrables</strong>
+
+        <div class="calculator-row">
+
+            <label for="startDate">
+                Date de début :
+            </label>
+
+            <input
+                type="date"
+                id="startDate">
+
+            <label for="endDate">
+                Date de fin :
+            </label>
+
+            <input
+                type="date"
+                id="endDate">
+
+            <span>
+                Jours ouvrables :
+            </span>
+
+            <strong id="workdayResult">
+                —
+            </strong>
+
+        </div>
+    </div>
+
 </div>
 
 <div id="calendar" class="calendar"></div>
 
-<div id="workdayCalculator">
 
-    <h3>Calculateur de jours ouvrables</h3>
-
-    <div class="calculator-row">
-
-        <label for="startDate">
-            Date de début :
-        </label>
-
-        <input
-            type="date"
-            id="startDate">
-
-        <label for="endDate">
-            Date de fin :
-        </label>
-
-        <input
-            type="date"
-            id="endDate">
-
-        <span>
-            Jours ouvrables :
-        </span>
-
-        <strong id="workdayResult">
-            —
-        </strong>
-
-    </div>
-
-</div>
 
 <script>
 
