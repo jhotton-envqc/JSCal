@@ -144,6 +144,31 @@ button {
     white-space: nowrap;
 }
 
+#workdayCalculator {
+    margin-top: 30px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.15);
+}
+
+.calculator-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.calculator-row input {
+    padding: 5px;
+}
+
+#workdayResult {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1565c0;
+}
+
 @media print {
     button {
         display:none;
@@ -185,6 +210,40 @@ button {
 </div>
 
 <div id="calendar" class="calendar"></div>
+
+<div id="workdayCalculator">
+
+    <h3>Calculateur de jours ouvrables</h3>
+
+    <div class="calculator-row">
+
+        <label for="startDate">
+            Date de début :
+        </label>
+
+        <input
+            type="date"
+            id="startDate">
+
+        <label for="endDate">
+            Date de fin :
+        </label>
+
+        <input
+            type="date"
+            id="endDate">
+
+        <span>
+            Jours ouvrables :
+        </span>
+
+        <strong id="workdayResult">
+            —
+        </strong>
+
+    </div>
+
+</div>
 
 <script>
 
@@ -922,13 +981,142 @@ END:VEVENT
     );
 }
 
-console.log(
-    getHolidaySeasonHolidays(2026)
-        .map(h => ({
-            nom: h.name,
-            date: formatDate(h.date)
-        }))
+function getHolidaySet(startYear, endYear)
+{
+    const holidaySet = new Set();
+
+    for(let year = startYear;
+        year <= endYear;
+        year++)
+    {
+        getHolidays(year)
+        .forEach(h =>
+        {
+            holidaySet.add(
+                formatDate(h.date)
+            );
+        });
+    }
+
+    return holidaySet;
+}
+
+function calculateWorkdays(startDate, endDate)
+{
+    if(!startDate || !endDate)
+    {
+        return "";
+    }
+
+const [sy, sm, sd] =
+    startDate.split("-").map(Number);
+
+const [ey, em, ed] =
+    endDate.split("-").map(Number);
+
+let start =
+    new Date(
+        sy,
+        sm - 1,
+        sd
+    );
+
+let end =
+    new Date(
+        ey,
+        em - 1,
+        ed
+    );
+
+    if(start > end)
+    {
+        [start, end] = [end, start];
+    }
+
+    const holidays =
+        getHolidaySet(
+            start.getFullYear(),
+            end.getFullYear()
+        );
+
+    let count = 0;
+
+    const current =
+        new Date(start);
+
+    while(current <= end)
+    {
+        const day =
+            current.getDay();
+
+        const weekend =
+            day === 0 ||
+            day === 6;
+
+        const holiday =
+            holidays.has(
+                formatDate(current)
+            );
+     
+            
+        if(
+            !weekend &&
+            !holiday
+        )
+        {
+            count++;
+        }
+
+        current.setDate(
+            current.getDate() + 1
+        );
+    }
+
+    return count;
+}
+
+function updateWorkdayCalculator()
+{
+    const start =
+        document.getElementById(
+            "startDate"
+        ).value;
+
+    const end =
+        document.getElementById(
+            "endDate"
+        ).value;
+
+    const result =
+        calculateWorkdays(
+            start,
+            end
+        );
+
+    document.getElementById(
+        "workdayResult"
+    ).textContent =
+        result === ""
+            ? "—"
+            : `${result} jours`;
+}
+
+
+document.getElementById(
+    "startDate"
+).addEventListener(
+    "change",
+    updateWorkdayCalculator
 );
+
+document.getElementById(
+    "endDate"
+).addEventListener(
+    "change",
+    updateWorkdayCalculator
+);
+
+
 
 renderCalendar();
 
