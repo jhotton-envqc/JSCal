@@ -12,10 +12,23 @@
     --holiday-text: #c62828;
 }
 
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+
 body {
     font-family: Segoe UI, sans-serif;
-    margin: 20px;
+    margin: 0;
+    padding: 20px;
     background: #f5f5f5;
+
+    height: 100vh;
+    overflow: hidden;
+
+    box-sizing: border-box;
 }
 
 header {
@@ -179,6 +192,12 @@ button {
     margin-bottom: 20px;
 }
 
+#mainTitle {
+    text-align: center;
+    margin: 0 0 10px 0;
+    font-size: 28px;
+    font-weight: bold;
+}
 
 #workdayResult {
     font-size: 18px;
@@ -186,12 +205,31 @@ button {
     color: #1565c0;
 }
 
+#headerArea {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    background: #f5f5f5;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 #topArea {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
     display: flex;
     justify-content: space-between;
     align-items: stretch;
     gap: 25px;
+
     margin-bottom: 20px;
+    padding-bottom: 10px;
+
+    background: #f5f5f5;
 }
 
 
@@ -207,6 +245,12 @@ button {
 #rightPanel {
     flex: 1;
     display: flex;
+    align-items: center;
+}
+
+#calendarContainer {
+    height: calc(100vh - 250px);
+    overflow-y: auto;
 }
 
 .calculator-title {
@@ -224,86 +268,94 @@ button {
 
 <body>
 
-<div id="topArea">
+<div id="headerArea">
 
-    <div id="leftPanel">
+    <h1 id="mainTitle">
+        Calendrier perpétuel FPQ
+    </h1>
 
-        <header>
-            <button onclick="changeYear(-1)">◀</button>
-            <button onclick="goToday()">Aujourd'hui</button>
-            <button onclick="changeYear(1)">▶</button>
+    <div id="topArea">
 
-            <span id="yearLabel"></span>
+        <div id="leftPanel">
 
-            <button onclick="exportHolidayICS()">
-                Exporter les congés (.ics)
-            </button>
+            <header>
+                <button onclick="changeYear(-1)">◀</button>
+                <button onclick="goToday()">Aujourd'hui</button>
+                <button onclick="changeYear(1)">▶</button>
 
-            <button onclick="exportPayrollICS()">
-                Exporter les payes (.ics)
-            </button>
-        </header>
+                <span id="yearLabel"></span>
 
-        <div class="legend">
-            <span class="payday-legend">
-                Jour de paye
-            </span>
+                <button onclick="exportHolidayICS()">
+                    Exporter les congés (.ics)
+                </button>
 
-            <span class="holiday-legend">
-                Congé férié
-            </span>
+                <button onclick="exportPayrollICS()">
+                    Exporter les payes (.ics)
+                </button>
+            </header>
 
-            <span class="today-legend">
-                Aujourd'hui
-            </span>
-        </div>
-
-    </div>
-
-    <div id="rightPanel">
-
-        <div id="workdayCalculator">
-
-            <div class="calculator-title">
-                Calculateur de jours ouvrables
-            </div>
-
-            <div class="calculator-row">
-
-                <label for="startDate">
-                    Date de début :
-                </label>
-
-                <input
-                    type="date"
-                    id="startDate">
-
-                <label for="endDate">
-                    Date de fin :
-                </label>
-
-                <input
-                    type="date"
-                    id="endDate">
-
-                <span>
-                    Jours ouvrables :
+            <div class="legend">
+                <span class="payday-legend">
+                    Jour de paye
                 </span>
 
-                <strong id="workdayResult">
-                    —
-                </strong>
+                <span class="holiday-legend">
+                    Congé férié
+                </span>
+
+                <span class="today-legend">
+                    Aujourd'hui
+                </span>
+            </div>
+
+        </div>
+
+        <div id="rightPanel">
+
+            <div id="workdayCalculator">
+
+                <div class="calculator-title">
+                    Calculateur de jours ouvrables
+                </div>
+
+                <div class="calculator-row">
+
+                    <label for="startDate">
+                        Date de début :
+                    </label>
+
+                    <input
+                        type="date"
+                        id="startDate">
+
+                    <label for="endDate">
+                        Date de fin :
+                    </label>
+
+                    <input
+                        type="date"
+                        id="endDate">
+
+                    <span>
+                        Jours ouvrables :
+                    </span>
+
+                    <strong id="workdayResult">
+                        —
+                    </strong>
+
+                </div>
 
             </div>
 
         </div>
 
     </div>
-
 </div>
 
-
-<div id="calendar" class="calendar"></div>
+<div id="calendarContainer">
+    <div id="calendar" class="calendar"></div>
+</div>
 
 
 
