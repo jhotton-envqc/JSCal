@@ -37,9 +37,8 @@ button {
 }
 
 .legend {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
+    margin-top: 10px;
+    margin-bottom: 0;
 }
 
 .legend span {
@@ -145,10 +144,21 @@ button {
 }
 
 #workdayCalculator {
-    padding: 12px;
+    flex: 1;
+
     background: white;
+
+    padding: 15px;
+
     border-radius: 8px;
+
     box-shadow: 0 2px 4px rgba(0,0,0,.15);
+
+    min-height: 120px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .calculator-row {
@@ -176,6 +186,34 @@ button {
     color: #1565c0;
 }
 
+#topArea {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+
+#leftPanel {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.15);
+
+    width: 700px;
+}
+
+#rightPanel {
+    flex: 1;
+    display: flex;
+}
+
+.calculator-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
 @media print {
     button {
         display:none;
@@ -186,71 +224,84 @@ button {
 
 <body>
 
-<header>
-    <button onclick="changeYear(-1)">◀</button>
-    <button onclick="goToday()">Aujourd'hui</button>
-    <button onclick="changeYear(1)">▶</button>
+<div id="topArea">
 
-    <span id="yearLabel"></span>
+    <div id="leftPanel">
 
-    <button onclick="exportHolidayICS()">
-        Exporter les congés (.ics)
-    </button>
+        <header>
+            <button onclick="changeYear(-1)">◀</button>
+            <button onclick="goToday()">Aujourd'hui</button>
+            <button onclick="changeYear(1)">▶</button>
 
-    <button onclick="exportPayrollICS()">
-        Exporter les payes (.ics)
-    </button>
-</header>
+            <span id="yearLabel"></span>
 
-<div class="top-tools">
-    <div class="legend">
-        <span class="payday-legend">
-            Jour de paye
-        </span>
+            <button onclick="exportHolidayICS()">
+                Exporter les congés (.ics)
+            </button>
 
-        <span class="holiday-legend">
-            Congé férié
-        </span>
+            <button onclick="exportPayrollICS()">
+                Exporter les payes (.ics)
+            </button>
+        </header>
 
-        <span class="today-legend">
-            Aujourd'hui
-        </span>
-    </div>
-
-    <div id="workdayCalculator">
-
-        <strong>Calculateur de jours ouvrables</strong>
-
-        <div class="calculator-row">
-
-            <label for="startDate">
-                Date de début :
-            </label>
-
-            <input
-                type="date"
-                id="startDate">
-
-            <label for="endDate">
-                Date de fin :
-            </label>
-
-            <input
-                type="date"
-                id="endDate">
-
-            <span>
-                Jours ouvrables :
+        <div class="legend">
+            <span class="payday-legend">
+                Jour de paye
             </span>
 
-            <strong id="workdayResult">
-                —
-            </strong>
+            <span class="holiday-legend">
+                Congé férié
+            </span>
+
+            <span class="today-legend">
+                Aujourd'hui
+            </span>
+        </div>
+
+    </div>
+
+    <div id="rightPanel">
+
+        <div id="workdayCalculator">
+
+            <div class="calculator-title">
+                Calculateur de jours ouvrables
+            </div>
+
+            <div class="calculator-row">
+
+                <label for="startDate">
+                    Date de début :
+                </label>
+
+                <input
+                    type="date"
+                    id="startDate">
+
+                <label for="endDate">
+                    Date de fin :
+                </label>
+
+                <input
+                    type="date"
+                    id="endDate">
+
+                <span>
+                    Jours ouvrables :
+                </span>
+
+                <strong id="workdayResult">
+                    —
+                </strong>
+
+            </div>
 
         </div>
+
     </div>
 
 </div>
+
 
 <div id="calendar" class="calendar"></div>
 
