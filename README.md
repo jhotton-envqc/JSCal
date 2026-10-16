@@ -1,6 +1,6 @@
 # JSCal
 
-Calendrier perpétuel en HTML/CSS/JavaScript permettant de visualiser les jours de paye et les congés fériés de la fonction publique du Québec, avec exportation au format ICS compatible Outlook.
+Calendrier perpétuel en HTML/CSS/JavaScript permettant de visualiser les jours de paye et les congés fériés de la fonction publique du Québec, avec exportation au format ICS compatible Outlook. Il y a aussi un calculateur de jours ouvrable entre deux dates.
 
 ## Fonctionnalités
 
