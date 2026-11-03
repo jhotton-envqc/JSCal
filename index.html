@@ -363,6 +363,8 @@ button {
 
 let currentYear = new Date().getFullYear();
 
+let initialScrollDone = false;
+
 const MONTHS = [
 "Janvier","Février","Mars","Avril",
 "Mai","Juin","Juillet","Août",
@@ -771,16 +773,6 @@ function key(date)
     return formatDate(date);
 }
 
-
-
-
-
-
-
-
-
-
-
 function addObservedHoliday(
     holidays,
     holidayDate
@@ -840,6 +832,7 @@ function renderCalendar()
     document.getElementById("yearLabel")
         .textContent = currentYear;
 
+    
     const calendar =
         document.getElementById("calendar");
 
@@ -851,6 +844,17 @@ function renderCalendar()
             document.createElement("div");
 
         monthDiv.className = "month";
+
+        const today = new Date();
+
+        if (
+            currentYear === today.getFullYear() &&
+            month === today.getMonth()
+        )
+        {
+            monthDiv.id = "currentMonth";
+            console.log("Mois courant trouvé :", MONTHS[month]);
+        }
 
         const title =
             document.createElement("div");
@@ -971,7 +975,33 @@ function renderCalendar()
 
         calendar.appendChild(monthDiv);
     }
-}
+
+    if (
+        !initialScrollDone &&
+        currentYear === new Date().getFullYear()
+    )
+    {
+        const currentMonth =
+            document.getElementById("currentMonth");
+
+        const container =
+            document.getElementById("calendarContainer");
+
+        if(currentMonth && container)
+        {
+            setTimeout(() =>
+            {
+                container.scrollTo({
+                    top: currentMonth.offsetTop - 20,
+                    behavior: "smooth"
+                });
+            }, 100);
+        }
+
+        initialScrollDone = true;
+    }
+
+} 
 
 function changeYear(delta)
 {
