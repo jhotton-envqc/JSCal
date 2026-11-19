@@ -192,6 +192,22 @@ button {
     margin-bottom: 20px;
 }
 
+.contact-info {
+    margin-top: 10px;
+    padding-left: 10px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.contact-info a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
 #mainTitle {
     text-align: left;
     margin: 0 0 10px 0;
@@ -308,6 +324,13 @@ button {
                 </span>
             </div>
 
+            <div class="contact-info">
+                Questions ou suggestions :
+                <a href="mailto:julien.hotton@environnement.gouv.qc.ca">
+                    Julien Hotton
+                </a>
+            </div>
+
         </div>
 
         <div id="rightPanel">
@@ -344,6 +367,34 @@ button {
                         —
                     </strong>
 
+                </div>
+
+                <div class="calculator-row" style="margin-top:15px;">
+                    <label for="targetStartDate">
+                        Date de début :
+                    </label>
+
+                    <input
+                        type="date"
+                        id="targetStartDate">
+
+                    <label for="targetWorkdays">
+                        Nombre de jours ouvrables :
+                    </label>
+
+                    <input
+                        type="number"
+                        id="targetWorkdays"
+                        min="1"
+                        style="width:80px;">
+
+                    <span>
+                        Date obtenue :
+                    </span>
+
+                    <strong id="targetDateResult">
+                        —
+                    </strong>
                 </div>
 
             </div>
@@ -1206,6 +1257,51 @@ let end =
     return count;
 }
 
+function calculateTargetDate(startDate, workdays)
+{
+    if(!startDate || !workdays || workdays < 1)
+    {
+        return "";
+    }
+
+    const [y, m, d] =
+        startDate.split("-").map(Number);
+
+    const current =
+        new Date(y, m - 1, d);
+
+    const holidays =
+        getHolidaySet(
+            current.getFullYear(),
+            current.getFullYear() + 5
+        );
+
+    let count = 0;
+
+    while(count < workdays)
+    {
+        current.setDate(
+            current.getDate() + 1
+        );
+
+        const weekend =
+            current.getDay() === 0 ||
+            current.getDay() === 6;
+
+        const holiday =
+            holidays.has(
+                formatDate(current)
+            );
+
+        if(!weekend && !holiday)
+        {
+            count++;
+        }
+    }
+
+    return formatDate(current);
+}
+
 function updateWorkdayCalculator()
 {
     const start =
@@ -1232,6 +1328,32 @@ function updateWorkdayCalculator()
             : `${result} jours`;
 }
 
+function updateTargetDateCalculator()
+{
+    const startDate =
+        document.getElementById(
+            "targetStartDate"
+        ).value;
+
+    const workdays =
+        parseInt(
+            document.getElementById(
+                "targetWorkdays"
+            ).value,
+            10
+        );
+
+    const result =
+        calculateTargetDate(
+            startDate,
+            workdays
+        );
+
+    document.getElementById(
+        "targetDateResult"
+    ).textContent =
+        result || "—";
+}
 
 document.getElementById(
     "startDate"
@@ -1247,7 +1369,19 @@ document.getElementById(
     updateWorkdayCalculator
 );
 
+document.getElementById(
+    "targetStartDate"
+).addEventListener(
+    "change",
+    updateTargetDateCalculator
+);
 
+document.getElementById(
+    "targetWorkdays"
+).addEventListener(
+    "input",
+    updateTargetDateCalculator
+);
 
 renderCalendar();
 
