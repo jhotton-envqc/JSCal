@@ -1278,12 +1278,8 @@ function calculateTargetDate(startDate, workdays)
 
     let count = 0;
 
-    while(count < workdays)
+    while(true)
     {
-        current.setDate(
-            current.getDate() + 1
-        );
-
         const weekend =
             current.getDay() === 0 ||
             current.getDay() === 6;
@@ -1296,10 +1292,17 @@ function calculateTargetDate(startDate, workdays)
         if(!weekend && !holiday)
         {
             count++;
-        }
-    }
 
-    return formatDate(current);
+            if(count === workdays)
+            {
+                return formatDate(current);
+            }
+        }
+
+        current.setDate(
+            current.getDate() + 1
+        );
+    }
 }
 
 function updateWorkdayCalculator()
